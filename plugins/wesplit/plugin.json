@@ -1,0 +1,30 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "wesplit",
+  "version": "0.2.0",
+  "description": "Track and split shared expenses through WeSplit, using concise natural language, receipt photos, balance reports and scoped OAuth.",
+  "author": {
+    "name": "WeSplit",
+    "url": "https://we-split.ru"
+  },
+  "homepage": "https://we-split.ru/mcp",
+  "keywords": ["expenses", "shared spending", "trip budget", "receipts"],
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/wesplit-setup/SKILL.md",
+      "interface": {
+        "displayName": "WeSplit",
+        "shortDescription": "Shared expenses with AI",
+        "developerName": "WeSplit",
+        "category": "Productivity",
+        "capabilities": ["Read", "Write"],
+        "websiteURL": "https://we-split.ru",
+        "defaultPrompt": [
+          "Аптека 3000 йен",
+          "Запиши покупки Uniqlo 5000 и обед 2500",
+          "Сколько мы потратили вчера?"
+        ]
+      }
+    }
+  }
+}

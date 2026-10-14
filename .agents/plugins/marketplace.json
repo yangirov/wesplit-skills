@@ -1,0 +1,20 @@
+{
+  "name": "wesplit",
+  "interface": {
+    "displayName": "WeSplit skills"
+  },
+  "plugins": [
+    {
+      "name": "wesplit",
+      "source": {
+        "source": "local",
+        "path": "./plugins/wesplit"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
