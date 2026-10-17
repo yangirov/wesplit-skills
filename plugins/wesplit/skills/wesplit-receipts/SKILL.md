@@ -1,15 +1,14 @@
 ---
 name: wesplit-receipts
-description: Extract store, date, amount, currency and items from a user-provided receipt photo and record a verified WeSplit expense.
+description: Interpret a receipt photo and record verified expenses through WeSplit MCP.
 ---
 
 # Receipt capture
 
-Use when the user sends a receipt photo with a request to record expenses.
-
-- Extract visible merchant, local date, item list, discounts, taxes, total and currency using image understanding. Never invent illegible values.
-- Reconcile total against item amounts, discounts and taxes. If discrepancies affect the recorded total, ask one focused clarification.
-- Default to ONE expense for the entire receipt with merchant title, optionally append item notes. Split into multiple expenses only if requested; use batch skill when applicable.
-- Use saved event/payer/split defaults via `wesplit_get_preferences`; explicit user overrides win. The image alone does not establish who paid.
-- Before any write check for possible duplicate receipt via `wesplit_list_purchases` (merchant, date, total). If duplicate is plausible, ask rather than recreate.
-- Respect Quick Add limitations and host approval; otherwise follow prepare/review/commit. Never claim image OCR or write succeeded unless actually verified.
+- Extract visible merchant, date, items, discounts, taxes, total and currency. Never invent illegible values.
+- Reconcile the total and ask one focused question when material values are ambiguous.
+- Default to one expense per receipt unless the user requests item-level purchases.
+- Resolve a named event via `wesplit_list_events` and `wesplit_get_event`; otherwise use scoped `wesplit_get_preferences`. Explicit event selection never changes saved preferences.
+- Verify the payer, participants, event currency and payment method ID. For item-level allocations use exact `allocations` and matching `members`. Do not infer payer from a receipt.
+- Check `wesplit_list_purchases` for plausible duplicates before writing.
+- For explicit recording requests use `wesplit_create_purchase` or `wesplit_create_purchases_batch` with explicit event IDs when selected and stable idempotency IDs. No spending cap or Quick Add switch. Respect host approvals and report confirmed writes only.

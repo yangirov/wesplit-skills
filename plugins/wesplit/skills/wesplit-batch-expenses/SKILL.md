@@ -1,16 +1,12 @@
 ---
 name: wesplit-batch-expenses
-description: Record several explicitly requested WeSplit purchases in one voice or text message, with safe retry and per-item results.
+description: Record multiple explicitly requested purchases in one named or default WeSplit event.
 ---
 
 # Batch expenses
 
-When the user lists 2-10 expenses together:
-
-- Parse each item into title, amount, date and optional payer/split. Apply message-wide clauses (e.g. "all paid by me") to all items unless overridden.
-- Fetch preferences once; use exact active event, IANA timezone, currency and split rules. Never invent omitted settings.
-- Confirm ambiguous amounts or currencies only when essential.
-- With Quick Add enabled and every amount within limit, call `wesplit_create_purchases_batch` with ONE stable `batchId`, an immutable ordered list, and dates in milliseconds. Preserve the same batchId and input for any retry.
-- The batch API reports partial outcomes; report exactly which items were saved and which failed. Never claim that the entire batch was atomic.
-- When Quick Add is disabled, use the reviewed prepare/commit workflow for each expense. Never bypass explicit tool approval or access controls.
-- End with a compact count and sum in the event currency.
+- Resolve the named event through `wesplit_list_events` and `wesplit_get_event`, or use `wesplit_get_preferences` when no event is specified. Never change saved preferences just to record a purchase.
+- Verify exact payer, participants, currency and payment methods for that event. Apply explicit user instructions first; saved defaults apply only to their matching event.
+- Parse each title, amount, date, payer, split, optional `allocations` and `paymentMethodId`. Validate that allocations sum to each purchase total.
+- Call `wesplit_create_purchases_batch` with `ownerUid`/`eventId` for an explicit event, one stable `batchId`, and the ordered items with exact dates. No spending cap or enable switch.
+- Preserve the batchId and identical payload on retries. Inspect each result, disclose partial successes and do not claim atomicity. Respect host approvals.
