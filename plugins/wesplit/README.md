@@ -17,7 +17,7 @@ Public distribution source: https://github.com/yangirov/wesplit-skills. This ZIP
 ## Skills
 
 - `wesplit-setup`: choose an accessible event, verified payer, participants and timezone.
-- `wesplit-quick-add`: record a short expense such as “Pharmacy 3000 yen”.
+- `wesplit-add-expense`: record a short expense such as “Pharmacy 3000 yen”.
 - `wesplit-batch-expenses`: record a list of purchases and inspect every result.
 - `wesplit-receipts`: interpret a receipt photo and verify totals.
 - `wesplit-reports`: spending, participant shares and balances for a period.
