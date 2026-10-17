@@ -1,12 +1,12 @@
 ---
 name: wesplit-add-expense
-description: Record one explicitly requested expense quickly using saved preferences and a direct MCP tool.
+description: Record one explicitly requested expense in a named WeSplit event or saved default.
 ---
 
 # Record an expense
 
-1. Call `wesplit_get_preferences` to resolve the active event, payer, split members and timezone. Explicit user choices override defaults. If missing, verify via `wesplit_list_events` and `wesplit_get_event`; ask only one essential question at a time. Never guess.
-2. Parse exact title, amount, currency and local date. Verify event currency and precision. Convert the intended local time to a Unix millisecond timestamp.
-3. For explicit expense requests, call `wesplit_create_purchase` directly with a stable unique `requestId`. No Quick Add enable switch, spending cap or extra prepare/commit is required. Host approval and MCP permissions still apply.
-4. After an uncertain response, retry only with the same ID and identical payload. Never create duplicate expenses.
-5. Report success only after server confirmation. Never claim a purchase was saved merely because it was prepared.
+1. Resolve the intended event. If the user names one, use `wesplit_list_events` to find it and `wesplit_get_event` to verify exact ownerUid/eventId, currency, participants and payment methods. Do not overwrite saved preferences. If no event is specified, use authorized `wesplit_get_preferences` defaults. Ask when missing or ambiguous.
+2. Explicit user details take precedence over saved preferences, which apply only to their matching event. Verify the payer and split members. Never silently borrow a payer or participants from another event.
+3. Resolve payment methods by their verified ID. For individual shares pass `allocations` and matching `members`, with exact amounts adding up to the purchase total. If no allocation is specified, use equal split.
+4. Call `wesplit_create_purchase` directly with `ownerUid` and `eventId` for an explicit event, exact date, amount, optional `paymentMethodId` and `allocations`, and a stable unique `requestId`. No enable switch, spending cap or extra prepare/commit. Host approvals still apply.
+5. After uncertain responses retry only the same ID and identical payload. Report success only after server confirmation.
