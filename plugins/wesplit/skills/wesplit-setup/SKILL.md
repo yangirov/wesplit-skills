@@ -1,15 +1,13 @@
 ---
 name: wesplit-setup
-description: Configure WeSplit default event, verified payer, split members, IANA timezone and optional safely capped Quick Add.
+description: Configure saved WeSplit event, payer, split members and IANA timezone for fast agent expense entry.
 ---
 
 # Configure WeSplit
 
-When the user wants fewer questions or requests default settings:
-
-1. Call `wesplit_list_events` and identify an accessible event; fetch `wesplit_get_event` for its exact members, currency and rights.
-2. Ask for any missing event or exact payer identity. Suggest splitting between all event members unless the user chooses a subset.
-3. Call `wesplit_set_preferences` when user explicitly authorizes saving settings.
-4. Quick Add is OFF by default. Explain that enabling it authorizes direct purchases within the selected event and maximum amount per purchase; it does not disable host approvals.
-5. Never enable Quick Add or set a spending limit without explicit consent. Clarify that repay/delete/access changes still need approval.
-6. Confirm saved event, payer, split, timezone, currency and mode succinctly.
+1. Call `wesplit_list_events` and `wesplit_get_event` to verify event, members, currency and rights.
+2. Ask only for missing event or exact payer identity. Let the user choose split members; otherwise default to all event members.
+3. With explicit authorization, call `wesplit_set_preferences` to save event, payer, split and timezone.
+4. Direct expense tools require write access, not an enable switch or monetary limit. Never request either.
+5. Other mutations, including deletions and repayments, retain prepare/review/commit and required approvals.
+6. Confirm saved event, payer, split, timezone and currency.
