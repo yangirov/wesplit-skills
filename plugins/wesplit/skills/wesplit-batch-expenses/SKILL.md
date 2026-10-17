@@ -1,16 +1,12 @@
 ---
 name: wesplit-batch-expenses
-description: Record several explicitly requested WeSplit purchases in one voice or text message, with safe retry and per-item results.
+description: Record multiple explicitly requested purchases using one scoped, idempotent MCP batch.
 ---
 
 # Batch expenses
 
-When the user lists 2-10 expenses together:
-
-- Parse each item into title, amount, date and optional payer/split. Apply message-wide clauses (e.g. "all paid by me") to all items unless overridden.
-- Fetch preferences once; use exact active event, IANA timezone, currency and split rules. Never invent omitted settings.
-- Confirm ambiguous amounts or currencies only when essential.
-- With Quick Add enabled and every amount within limit, call `wesplit_create_purchases_batch` with ONE stable `batchId`, an immutable ordered list, and dates in milliseconds. Preserve the same batchId and input for any retry.
-- The batch API reports partial outcomes; report exactly which items were saved and which failed. Never claim that the entire batch was atomic.
-- When Quick Add is disabled, use the reviewed prepare/commit workflow for each expense. Never bypass explicit tool approval or access controls.
-- End with a compact count and sum in the event currency.
+- Parse each title, amount, date, payer and split. Apply message-wide instructions unless overridden.
+- Read saved preferences once; verify event, participants and currency. Ask only for essential missing details.
+- Call `wesplit_create_purchases_batch` with one stable `batchId`, exact ordered items and Unix millisecond dates. No enable switch or spending cap applies.
+- Preserve the exact batchId and payload for retries. Inspect per-item results and disclose partial success. Do not claim atomicity.
+- Respect host approvals and access permissions. Summarize confirmed purchases and totals.
