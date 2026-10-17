@@ -28,6 +28,10 @@ Public distribution source: https://github.com/yangirov/wesplit-skills. This ZIP
 
 Save the preferred event, payer, split and timezone with `wesplit_set_preferences` when requested. Explicit purchase instructions can use direct MCP creation tools without an enable switch or monetary limit. Host approvals and OAuth rights still apply. Repayments and deletion remain reviewed.
 
+## Explicit events and purchase details
+
+For requests naming an event, resolve its exact ownerUid/eventId with `wesplit_list_events` and `wesplit_get_event`, then pass both to the direct creation tool. Saved preferences are only a fallback when no event is specified, and must never be silently changed by a one-off purchase. For another event, verify payer and split participants explicitly. Optional `paymentMethodId` and `allocations` support the full purchase model; resolve payment methods from the event and make allocation sums match the purchase total.
+
 ## Security and limitations
 
 Every request enforces OAuth or personal-token rights and current event membership. Direct purchases require validated event preferences, scoped write permission and stable idempotency keys. Batch requests may partially succeed: inspect each item. Replay only with the same batchId and identical payload.
