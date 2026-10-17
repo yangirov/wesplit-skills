@@ -1,6 +1,6 @@
 ---
 name: wesplit-receipts
-description: Extract store, date, amount, currency and items from a user-provided receipt photo and record a verified WeSplit expense.
+description: Extract merchant, date, amount, currency and items from a receipt photo and prepare a verified expense.
 ---
 
 # Receipt capture
@@ -8,8 +8,8 @@ description: Extract store, date, amount, currency and items from a user-provide
 Use when the user sends a receipt photo with a request to record expenses.
 
 - Extract visible merchant, local date, item list, discounts, taxes, total and currency using image understanding. Never invent illegible values.
-- Reconcile total against item amounts, discounts and taxes. If discrepancies affect the recorded total, ask one focused clarification.
-- Default to ONE expense for the entire receipt with merchant title, optionally append item notes. Split into multiple expenses only if requested; use batch skill when applicable.
-- Use saved event/payer/split defaults via `wesplit_get_preferences`; explicit user overrides win. The image alone does not establish who paid.
-- Before any write check for possible duplicate receipt via `wesplit_list_purchases` (merchant, date, total). If duplicate is plausible, ask rather than recreate.
-- Respect Quick Add limitations and host approval; otherwise follow prepare/review/commit. Never claim image OCR or write succeeded unless actually verified.
+- Reconcile the total against items, discounts and taxes. Ask one focused question if discrepancies affect the amount.
+- Default to one expense for the whole receipt with merchant title and optional item notes. Split into multiple expenses only when requested.
+- Resolve the exact event with `wesplit_list_events` and `wesplit_get_event`. Verify payer and split participants explicitly; the receipt alone does not establish who paid.
+- Before writing, check plausible duplicates via `wesplit_list_purchases` (merchant, date, amount).
+- Prepare using `wesplit_prepare_purchase_change`, show the exact summary, obtain required approval and commit via `wesplit_commit_change`. For an uncertain outcome check `wesplit_get_change_status`.
