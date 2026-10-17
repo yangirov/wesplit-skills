@@ -18,19 +18,15 @@ Restart Codex. Connect the WeSplit MCP server at https://we-split.ru/mcp using O
 ## Skills
 
 - `wesplit-setup`: choose an accessible event, verified payer, participants and timezone.
-- `wesplit-quick-add`: record a short expense such as “Pharmacy 3000 yen”.
+- `wesplit-add-expense`: prepare and record one expense after user review.
 - `wesplit-batch-expenses`: record a list of purchases and inspect every result.
 - `wesplit-receipts`: interpret a receipt photo and verify totals.
 - `wesplit-reports`: spending, participant shares and balances for a period.
 - `wesplit-expense-management`: find, correct or delete a purchase with approval.
 - `wesplit-settlements`: record an already completed repayment with approval.
 
-## Quick Add is optional
-
-MCP works without Quick Add. Direct expense creation defaults to disabled. Ask the assistant to save defaults through `wesplit_set_preferences` only if desired. Enabling Quick Add and its positive per-purchase limit requires explicit consent. It never disables host approvals. Repayments, deletion and access changes remain reviewed.
-
 ## Security and limitations
 
-Every request enforces OAuth or personal-token rights and current event membership. Direct purchases require saved defaults, a strict spending limit and stable idempotency keys. Batch requests may partially succeed: inspect each item. Replay only with the same batchId and identical payload.
+Every request enforces OAuth or personal-token rights and current event membership. All mutations use prepare, user review and commit. Check durable change status after an uncertain response before retrying.
 
 Receipt images are interpreted by the model; the MCP server does not ingest receipt files. Saved preferences are scoped to the authenticated account. Public packages contain no application source, credentials or account data.
