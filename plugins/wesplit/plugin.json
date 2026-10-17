@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "wesplit",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Track and split shared expenses through WeSplit, using concise natural language, receipt photos, balance reports and scoped OAuth.",
   "author": {
     "name": "WeSplit",
